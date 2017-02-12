@@ -1,6 +1,7 @@
 ﻿#ifndef EASY_USART_H_
 #define EASY_USART_H_
 
+#include <avr/io.h>
 #include <stdint.h>
 #include <math.h>
 
@@ -18,6 +19,17 @@
 #define RXEN        0x10
 #define TXEN        0x08
 
+enum
+{
+	DATA_5BIT,
+	DATA_6BIT,
+	DATA_7BIT,
+	DATA_8BIT
+};
+
 uint32_t caculate_ubbr(uint32_t baudrate, uint32_t cpu_frequency);
+
+void set_ubbr(uint32_t ubbr);
+void set_send_character_size(uint8_t character_size);
 
 #endif /* EASY_USART_H_ */
