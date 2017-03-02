@@ -15,6 +15,14 @@
 
 #define CLOCK_SET_BIT 0x07
 
+enum waveform_generation_mode
+{
+	NORMAL,
+	PHASE_CORRECT,
+	CTC,
+	FAST_PWM
+};
+
 enum clock_select
 {
 	NO_CLOCK,
