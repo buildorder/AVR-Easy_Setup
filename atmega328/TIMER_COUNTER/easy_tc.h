@@ -1,20 +1,78 @@
 ﻿/*
- * easy_tc.h
- *
- * Created: 2017-02-20 오후 5:02:41
- *  Author: kms014
- */ 
-
+ *		ORDER
+ *		
+ *		1. DEFINE
+ *		2. STRUCT
+ *		3. ENUM
+ *		4. FUNCTION
+ *		5. VARIABLE
+ */
 
 #ifndef EASY_TC_H_
 #define EASY_TC_H_
 
 #include <avr/io.h>
 
-#define TIMER0_OVF_INTERRUPT 0x01
+/* TCCR0A => COM0A[1:0] == bit[7:6] */
+#define OC0A 0xC0 // PD6
+#define COM0A_MASK   0xC0
+#define COM0A_SHIFT  6
 
-#define CLOCK_SET_BIT 0x07
+	/* COMA_NON_PWM */
+	#define DISSCONNECT 0
+	#define TOGGLE 1
+	#define CLEAR 2
+	#define SET 3
+	/* COMA_NON_PWM */
+	
+	/* COMA_FAST_PWM */
+	#define DISSCONNECT 0
+	//TCCR0B => WGM02 == bit[3] ... If WGM02 is '0' OC0A Dissconnected, or '1' Toggle
+	#define DISSCONNECT_OR_TOGGLE 1
+	#define NON_INVERTING 2
+	#define INVERTING 3
+	/* COMA_FAST_PWM */
+	
+	/* COMA_PHASE_CORRECT_PWM */
+	#define DISSCONNECT 0
+	//TCCR0B => WGM02 == bit[3] ... If WGM02 is '0' OC0A Dissconnected, or '1' Toggle
+	#define DISSCONNECT_OR_TOGGLE 1
+	#define NON_INVERTING 2
+	#define INVERTING 3
+	/* COMA_PHASE_CORRECT_PWM */
+	
+/* TCCR0A => COM0A[1:0] == bit[7:6] */
 
+
+/* TCCR0A => COM0B[1:0] == bit[5:4] */
+#define OC0B 0x30 // PD5
+#define COM0B_MASK   0x30
+#define COM0B_SHIFT  4
+
+	/* COMB_NON_PWM */
+	#define DISSCONNECT 0
+	#define TOGGLE 1
+	#define CLEAR 2
+	#define SET 3
+	/* COMB_NON_PWM */
+	
+	/* COMB_FAST_PWM */
+	#define DISSCONNECT 0
+	#define RESERVED 1
+	#define NON_INVERTING 2
+	#define INVERTING 3
+	/* COMB_FAST_PWM */
+	
+	/* COMB_PHASE_CORRECT_PWM */
+	#define DISSCONNECT 0
+	#define RESERVED 1	
+	#define NON_INVERTING 2
+	#define INVERTING 3
+	/* COMB_PHASE_CORRECT_PWM */
+
+/* TCCR0A => COM0B[1:0] == bit[5:4] */
+
+#define WAVE_GENERATION_MASK   0x03
 enum waveform_generation_mode
 {
 	NORMAL,
@@ -23,6 +81,7 @@ enum waveform_generation_mode
 	FAST_PWM
 };
 
+#define CLOCK_SET_BIT 0x07
 enum clock_select
 {
 	NO_CLOCK,
@@ -35,7 +94,17 @@ enum clock_select
 	RISING_EXTERNAL_CLOCK	
 };
 
+/* TCCR0A */
+void set_waveform_mode(uint8_t waveform_mode);
+void set_pwm_pin_mode(uint8_t output_pin);
+/* TCCR0A */
 
-void timer_init(uint8_t clock_frequency);
+/* TCCR0B */
+void set_prescale(uint8_t prescale);
+/* TCCR0B */
 
+void easy_timer_intterupt_setup(uint8_t clock_frequency, uint8_t prescale, uint32_t overflow_frequency);
+void easy_pwm_setup(uint8_t output_pin, uint8_t ocr_value);
+
+extern enum waveform_generation_mode wave_mode;
 #endif /* EASY_TC_H_ */
