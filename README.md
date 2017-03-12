@@ -24,3 +24,19 @@ stdin과 stdout을 사용하기 위해 이 함수를 사용합니다.
 STREAM을 생성하여 stdin과 stdout을 연결합니다.
 
 이로서, printf와 scanf등 stdin과 stdout을 사용하는 함수를 사용할 수 있습니다.
+
+###2-2. TIMER/COUNTER
+    void easy_pwm_setup(uint8_t output_pin, uint8_t ocr_value);
+
+####2-2-1. 인자(Parameters)
+1. output_pin : PWM 파형을 출력하고 싶은 핀을 선택합니다. (ex : OC0A, OC0B)
+2. ocr_value  : OCR0(A, B) 값을 정합니다.
+
+####2-2-2. 간략한 설명
+기본적으로 PHASE_CORRECT 모드에 NON-INVERTING 모드로 작동하게 했습니다.
+
+분주비는 64를 기본으로 합니다.
+
+####2-2-3. 추가/수정 해야할 것
+1. 이슈참조
+2. PWM핀 모두 지원 (현재 OC0A, OC0B만 지원)
