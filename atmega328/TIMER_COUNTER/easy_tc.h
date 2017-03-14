@@ -12,6 +12,8 @@
 #define EASY_TC_H_
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
+#include "easy_usart.h"
 
 /* TCCR0A => COM0A[1:0] == bit[7:6] */
 #define OC0A 0xC0 // PD6
@@ -72,6 +74,12 @@
 
 /* TCCR0A => COM0B[1:0] == bit[5:4] */
 
+/* TIMSK0 */
+#define OCB_MACTH_INTERRUPT_ENABLE 0x04
+#define OCA_MACTH_INTERRUPT_ENABLE 0x02
+#define OVERFLOW_INTERRUPT_ENABLE 0x01
+/* TIMSK0 */
+
 #define WAVE_GENERATION_MASK   0x03
 enum waveform_generation_mode
 {
@@ -96,14 +104,16 @@ enum clock_select
 
 /* TCCR0A */
 void set_waveform_mode(uint8_t waveform_mode);
-void set_pwm_pin_mode(uint8_t output_pin);
+void set_pwm_pin_mode(uint8_t output_pin, uint8_t output_pin_shift);
 /* TCCR0A */
 
 /* TCCR0B */
 void set_prescale(uint8_t prescale);
 /* TCCR0B */
 
-void easy_timer_intterupt_setup(uint8_t clock_frequency, uint8_t prescale, uint32_t overflow_frequency);
+void set_overflow_intterupt_enable();
+int32_t easy_set_overflow_frequency(uint32_t clock_frequency, uint8_t prescale, uint32_t overflow_frequency);
+int32_t easy_timer_intterupt_setup(uint32_t clock_frequency, uint8_t prescale, uint32_t overflow_frequency);
 void easy_pwm_setup(uint8_t output_pin, uint8_t ocr_value);
 
 extern enum waveform_generation_mode wave_mode;

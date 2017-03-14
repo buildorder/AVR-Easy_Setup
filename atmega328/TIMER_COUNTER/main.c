@@ -12,20 +12,26 @@
 #include "easy_usart.h"
 #include "easy_tc.h"
  
+ int cnt, now_time, tcnt_value;
+ 
 int main(void)
 {
-	int i;
-	DDRD = 0xFF;
+	easy_uart_setup(BAUD_RATE_9600, F_CPU);
+	tcnt_value = easy_timer_intterupt_setup(F_CPU, CLOCK_64, 1000);
+	set_overflow_intterupt_enable();
 	
-	//easy_uart_setup(BAUD_RATE_57600, F_CPU);
-	easy_pwm_setup(OC0B, 0);
+	while(1);
+}
+
+ISR(TIMER0_OVF_vect)
+{
+	TCNT0 = tcnt_value;
+	cnt++;
 	
-	while(1)
+	if( cnt == 999 )
 	{
-		for (i=0;i<256;i++)
-		{
-			easy_pwm_setup(OC0B, i);
-			_delay_ms(20);
-		}
-	};
+		now_time++;
+		cnt = 0;
+		printf("TIME : %d\n", now_time);
+	}
 }
