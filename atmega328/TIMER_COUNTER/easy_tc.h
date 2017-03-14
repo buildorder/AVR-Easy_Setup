@@ -111,9 +111,9 @@ void set_pwm_pin_mode(uint8_t output_pin, uint8_t output_pin_shift);
 void set_prescale(uint8_t prescale);
 /* TCCR0B */
 
-void set_overflow_intterupt_enable();
+void set_overflow_interrupt_enable();
 int32_t easy_set_overflow_frequency(uint32_t clock_frequency, uint8_t prescale, uint32_t overflow_frequency);
-int32_t easy_timer_intterupt_setup(uint32_t clock_frequency, uint8_t prescale, uint32_t overflow_frequency);
+int32_t easy_timer_interrupt_setup(uint32_t clock_frequency, uint8_t prescale, uint32_t overflow_frequency);
 void easy_pwm_setup(uint8_t output_pin, uint8_t ocr_value);
 
 extern enum waveform_generation_mode wave_mode;

@@ -33,7 +33,7 @@ void set_prescale(uint8_t prescale)
 	TCCR0B |= prescale;
 }
 
-void set_overflow_intterupt_enable()
+void set_overflow_interrupt_enable()
 {
 	//Set TIMSK0 => TOIE = bit[0]
 	TIMSK0 |= OVERFLOW_INTERRUPT_ENABLE;
@@ -50,7 +50,6 @@ int32_t easy_set_overflow_frequency(uint32_t clock_frequency, uint8_t prescale, 
 	
 	// Match enum clock_select's prescale with real presacle value.
 	// (0x01)CLOCK_1 => 1 ... (0x02)CLOCK_8 => 8 ... (0x03)CLOCK_64 => 64 ...
-	
 	switch(prescale)
 	{
 		case CLOCK_1 :
@@ -87,7 +86,7 @@ int32_t easy_set_overflow_frequency(uint32_t clock_frequency, uint8_t prescale, 
 		return -1;
 }
 
-int32_t easy_timer_intterupt_setup(uint32_t clock_frequency, uint8_t prescale, uint32_t overflow_frequency)
+int32_t easy_timer_interrupt_setup(uint32_t clock_frequency, uint8_t prescale, uint32_t overflow_frequency)
 {
 	/* TCCR0A */
 	set_waveform_mode(NORMAL);
